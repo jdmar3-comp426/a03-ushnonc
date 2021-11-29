@@ -45,10 +45,18 @@ export function maxAndMin(numbers) {
         max: 0,
         min: 0,
     };
-    var min = min(numbers);
-    var max = max(numbers);
-    data.min = parseInt(min);
-    data.max = parseInt(max);
+    var minNum = numbers[0];
+    var maxNum = numbers[0];
+    for (var i = 1; i < numbers.length; i++) {
+        if (numbers[i] < minNum) {
+            minNum = numbers[i];
+        }
+        if (numbers[i] > maxNum) {
+            maxNum = numbers[i]
+        }
+    }
+    data.min = parseInt(minNum);
+    data.max = parseInt(maxNum);
     return data;
 }
 

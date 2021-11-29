@@ -27,8 +27,8 @@ export const allCarStats = {
 
 function averageMpg(array) {
     var data = {
-        city = 0,
-        highway = 0,
+        city: 0,
+        highway: 0,
     };
     var city_total = 0;
     var highway_total = 0;

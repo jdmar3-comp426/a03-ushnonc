@@ -37,7 +37,7 @@ export function getMedian(array) {
         }
     }
     var mid = Math.floor(sortedArray.length / 2);
-    return sortedArray.length % 2 !== 0 ? nums[mid] : (nums[mid - 1] + nums[mid]) / 2;
+    return sortedArray.length % 2 !== 0 ? sortedArray[mid] : (sortedArray[mid - 1] + sortedArray[mid]) / 2;
 }
 
 /**

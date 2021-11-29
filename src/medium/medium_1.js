@@ -38,7 +38,7 @@ export function getMedian(array) {
     }
     var len = sortedArray.length;
     if (sortedArray.length % 2 == 0) {
-        return sortedArray[parseInt(len / 2)] + sortedArray[parseInt(len / 2) + 1] / 2;
+        return sortedArray[parseInt(len / 2)] + sortedArray[parseInt(len / 2) - 1] / 2;
     }
 
 }

@@ -75,7 +75,7 @@ export function countArray(array) {
     while (array.length != 0) {
         var key = array[0];
         var count = 1;
-        for (var i = 0; i < array.length; i++) {
+        for (var i = 1; i < array.length; i++) {
             if (array[i] === key) {
                 count++;
             }

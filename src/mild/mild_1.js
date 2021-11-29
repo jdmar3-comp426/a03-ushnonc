@@ -45,8 +45,8 @@ export function maxAndMin(numbers) {
         max: 0,
         min: 0,
     };
-    var min = numbers.min();
-    var max = numbers.max();
+    var min = min(numbers);
+    var max = max(numbers);
     data.min = parseInt(min);
     data.max = parseInt(max);
     return data;

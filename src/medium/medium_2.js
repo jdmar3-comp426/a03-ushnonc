@@ -121,3 +121,61 @@ export const moreStats = {
     makerHybrids: undefined,
     avgMpgByYearAndHybrid: undefined
 };
+
+function getMakerHybrids(array) {
+    var hybridArray = [];
+    var loc = 0;
+    for (let i=0; i < array.length; i++) {
+        if (array[i].hybrid) {
+            hybridArray[loc] = {
+                make: array[i].make,
+                id: array[i].id,
+            };
+            loc++;
+        }
+    }
+    var hybridsAvail = [];
+    var len = hybridArray.length
+    loc = 0;
+    while (len > 0) {
+        var make = hybridArray[0].make;
+        hybridsAvail[loc] = {
+            make: make,
+            hybrids: [],
+            total: 0,
+        };
+        var location = 0;
+        for (let i =0; i < len; i++) {
+            if (hybridArray[i].make === make) {
+                hybridsAvail[loc].hybrids[location] = hybridArray[i].id;
+                location++;
+                hybridArray.splice(i, 1);
+                i--;
+                len--;
+            }
+        }
+        hybridsAvail[loc].total = hybridsAvail[loc].hybrids.length;
+        loc++;
+    }
+    var final = [];
+    var length = hybridsAvail.length;
+    loc = 0;
+    while (length > 0) {
+        var max = 0;
+        var index = -1;
+        for (let i = 0; i < length; i++) {
+            if (hybridsAvail[i].total > max) {
+                max = hybridsAvail[i].total;
+                index = i;
+            }
+        }
+        final[loc] = {
+            make: hybridsAvail[index].make,
+            hybrids: hybridsAvail[index].hybrids,
+        };
+        length--;
+        loc++;
+        hybridsAvail.splice(index, 1);
+    }
+    return final;
+}

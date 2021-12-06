@@ -8,7 +8,11 @@ import {variance} from "./data/stats_helpers.js";
  * prototype functions. Very useful
  */
 export function getSum(array) {
-
+    var num = 0;
+    array.forEach(element => {
+        num += element;
+    });
+    return num;
 }
 
 
@@ -22,7 +26,18 @@ export function getSum(array) {
  * console.log(getMedian(array)); // 4.5
  */
 export function getMedian(array) {
-
+    var sortedArray = array;
+    for (var i = 0; i < sortedArray.length; i++) {
+        for (var j = 0; j < sortedArray.length; j++) {
+            if (parseInt(sortedArray[j]) > parseInt(sortedArray[i])) {
+                var temp = sortedArray[i];
+                sortedArray[i] = sortedArray[j];
+                sortedArray[j] = temp;
+            }
+        }
+    }
+    var mid = Math.floor(sortedArray.length / 2);
+    return sortedArray.length % 2 !== 0 ? sortedArray[mid] : (sortedArray[mid - 1] + sortedArray[mid]) / 2;
 }
 
 /**
@@ -45,6 +60,34 @@ export function getMedian(array) {
  }
  */
 export function getStatistics(array) {
-
+    var data = {
+        length: 0,
+        sum: 0,
+        mean: 0,
+        median: 0,
+        min: 0,
+        max: 0,
+        variance: 0,
+        standard_deviation: 0,
+    };
+    data.length = array.length;
+    data.sum = getSum(array);
+    data.mean = data.sum / data.length;
+    data.median = getMedian(array);
+    var numMax = array[0];
+    var numMin = array[0];
+    for (var i = 1; i < array.length; i++) {
+        if (array[i] < numMin) {
+            numMin = array[i];
+        }
+        if (array[i] > numMax) {
+            numMax = array[i]
+        }
+    }
+    data.min = numMin;
+    data.max = numMax;
+    data.variance = variance(array, data.mean);
+    data.standard_deviation = Math.sqrt(data.variance);
+    return data;
 }
 

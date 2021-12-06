@@ -20,11 +20,45 @@ see under the methods section
  * @param {allCarStats.ratioHybrids} ratio of cars that are hybrids
  */
 export const allCarStats = {
-    avgMpg: undefined,
-    allYearStats: undefined,
-    ratioHybrids: undefined,
+    avgMpg: averageMpg(mpg_data),
+    allYearStats: yearStats(mpg_data),
+    ratioHybrids: ratioHybrids(mpg_data),
 };
 
+function averageMpg(array) {
+    var data = {
+        city: 0,
+        highway: 0,
+    };
+    var city_total = 0;
+    var highway_total = 0;
+    for (var i = 0; i < array.length; i++) {
+        city_total += array[i].city_mpg;
+        highway_total += array[i].highway_mpg;
+    }
+    data.city = city_total / array.length;
+    data.highway = highway_total / array.length;
+    return data;
+}
+
+function yearStats(array) {
+    var arr = [];
+    for (var i = 0; i < array.length; i++) {
+        arr[i] = array[i].year;
+    }
+    var data = getStatistics(arr);
+    return data;
+}
+
+function ratioHybrids(array) {
+    var total = 0;
+    for (var i = 0; i < array.length; i++) {
+        if (array[i].hybrid) {
+            total++;
+        }
+    }
+    return total / array.length;
+}
 
 /**
  * HINT: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce
@@ -87,3 +121,61 @@ export const moreStats = {
     makerHybrids: undefined,
     avgMpgByYearAndHybrid: undefined
 };
+
+function getMakerHybrids(array) {
+    var hybridArray = [];
+    var loc = 0;
+    for (let i=0; i < array.length; i++) {
+        if (array[i].hybrid) {
+            hybridArray[loc] = {
+                make: array[i].make,
+                id: array[i].id,
+            };
+            loc++;
+        }
+    }
+    var hybridsAvail = [];
+    var len = hybridArray.length
+    loc = 0;
+    while (len > 0) {
+        var make = hybridArray[0].make;
+        hybridsAvail[loc] = {
+            make: make,
+            hybrids: [],
+            total: 0,
+        };
+        var location = 0;
+        for (let i =0; i < len; i++) {
+            if (hybridArray[i].make === make) {
+                hybridsAvail[loc].hybrids[location] = hybridArray[i].id;
+                location++;
+                hybridArray.splice(i, 1);
+                i--;
+                len--;
+            }
+        }
+        hybridsAvail[loc].total = hybridsAvail[loc].hybrids.length;
+        loc++;
+    }
+    var final = [];
+    var length = hybridsAvail.length;
+    loc = 0;
+    while (length > 0) {
+        var max = 0;
+        var index = -1;
+        for (let i = 0; i < length; i++) {
+            if (hybridsAvail[i].total > max) {
+                max = hybridsAvail[i].total;
+                index = i;
+            }
+        }
+        final[loc] = {
+            make: hybridsAvail[index].make,
+            hybrids: hybridsAvail[index].hybrids,
+        };
+        length--;
+        loc++;
+        hybridsAvail.splice(index, 1);
+    }
+    return final;
+}
